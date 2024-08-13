@@ -47,7 +47,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define I2C1_SDA_PAL_MODE PAL_MODE_ALTERNATIVE_2
 #define I2C1_SCL_PIN B0
 #define I2C1_SDA_PIN B1
-
+#define EE_HANDS
 #ifdef ST7565_ENABLE
 /* LCD driver */
 #    define ST7565_A0_PIN C7
