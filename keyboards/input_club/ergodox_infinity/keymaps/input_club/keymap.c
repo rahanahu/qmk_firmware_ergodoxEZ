@@ -194,7 +194,7 @@ LAYOUT_ergodox(
                                                                 KC_END,
                                              KC_SPC,  KC_RCTL,  CK_C_MHE,
         // right hand
-        JP_AT,   KC_6,   KC_7,    KC_8,    KC_9,    KC_0,     JP_CIRC,
+        JP_AT,   KC_6,   KC_7,    KC_8,    KC_9,    KC_0,     JP_YEN,
         JP_CIRC, KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,     JP_BSLS,
                  KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,
         JP_MINS, KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  JP_BSLS,
@@ -215,7 +215,7 @@ LAYOUT_ergodox(
                                                                 KC_END,
                                              MT_SS,  KC_RCTL,  JP_MHEN,
         // right hand
-        JP_AT,   KC_6,   KC_7,    KC_8,    KC_9,    KC_0,     JP_CIRC,
+        JP_AT,   KC_6,   KC_7,    KC_8,    KC_9,    KC_0,     JP_YEN,
         JP_CIRC, KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,     JP_BSLS,
                  KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,
         JP_MINS, KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  JP_BSLS,

@@ -64,7 +64,7 @@ void mod_tap_action(keyrecord_t *record, uint8_t mod, void (*cb)(void) ) {
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case MT_SS:
-            return TAPPING_TERM + 25; 
+            return 90; 
         default:
             return TAPPING_TERM;
     }
@@ -155,11 +155,66 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
       }
       break;
+    // RCTL + ,(<) -> [
+    case KC_COMM:
+      if (
+        record->event.pressed
+        && (get_mods() & MOD_BIT(KC_RCTL))
+      ) {
+        bool shift_pressed = get_mods() & MOD_MASK_SHIFT;
+        clear_keyboard();
+        del_mods(MOD_BIT(KC_RCTL));
+        if (shift_pressed){
+          register_code(KC_LSFT);
+          type_code(JP_LBRC);
+          unregister_code(KC_LSFT);
+          add_mods(MOD_BIT(KC_LSFT));
+        }else{
+          type_code(JP_LBRC);
+        }
+        add_mods(MOD_BIT(KC_RCTL));
+        return false;
+      }
+      break;
+    // RCTL + .(>) -> ]
+    case KC_DOT:
+      if (
+        record->event.pressed
+        && (get_mods() & MOD_BIT(KC_RCTL))
+      ) {
+        bool shift_pressed = get_mods() & MOD_MASK_SHIFT;
+        clear_keyboard();
+        del_mods(MOD_BIT(KC_RCTL));
+        if (shift_pressed){
+          register_code(KC_LSFT);
+          type_code(JP_RBRC);
+          unregister_code(KC_LSFT);
+          add_mods(MOD_BIT(KC_LSFT));
+        }else{
+          type_code(JP_RBRC);
+        }
+        add_mods(MOD_BIT(KC_RCTL));
+        return false;
+      }
+      break; 
     default:
         break;
   }
   return true;
 }
+
+// void matrix_scan_user(void) {
+//     for (uint8_t i = 0; i < MATRIX_ROWS; i++) {
+//         for (uint8_t j = 0; j < MATRIX_COLS; j++) {
+//             if (matrix_is_on(i, j)) {
+//                 uint8_t led_index = g_led_config.matrix_co[i][j];
+//                 if (led_index != NO_LED) {
+//                     rgb_matrix_set_color(led_index, 255, 0, 0);  // 赤色に点灯
+//                 }
+//             }
+//         }
+//     }
+// }
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Basic layer
@@ -194,7 +249,7 @@ LAYOUT_ergodox(
                                                                 KC_END,
                                              KC_SPC,  KC_RCTL,  CK_C_MHE,
         // right hand
-        JP_AT,   KC_6,   KC_7,    KC_8,    KC_9,    KC_0,     JP_CIRC,
+        JP_AT,   KC_6,   KC_7,    KC_8,    KC_9,    KC_0,     JP_YEN,
         JP_CIRC, KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,     JP_BSLS,
                  KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,
         JP_MINS, KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  JP_BSLS,
@@ -215,7 +270,7 @@ LAYOUT_ergodox(
                                                                 KC_END,
                                              MT_SS,  KC_RCTL,  JP_MHEN,
         // right hand
-        JP_AT,   KC_6,   KC_7,    KC_8,    KC_9,    KC_0,     JP_CIRC,
+        JP_AT,   KC_6,   KC_7,    KC_8,    KC_9,    KC_0,     JP_YEN,
         JP_CIRC, KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,     JP_BSLS,
                  KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,
         JP_MINS, KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  JP_BSLS,

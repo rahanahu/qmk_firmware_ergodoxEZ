@@ -20,12 +20,12 @@ led_config_t g_led_config = {
         { 13, 12, 11, 10,  9,  8,  7         },
         {   0, 1,  2,   3, 4,  5,  6         },
         /*right*/
-        { NO_LED, 72, 71, 70, 73, 75, 74     },
-        { 65, 66, 67, 68, 69, NO_LED, NO_LED },
-        { 64, 63, 62, 61, 60, 59, 58         },
-        { 52, 53, 54, 55, 56, 57, NO_LED     },
-        { 51, 50, 49, 48, 47, 46, 45         },
-        { 38, 39, 40, 41, 42, 43, 44         }
+        { NO_LED, 77, 76, 75, 78, 80, 79     },
+        { 70, 71, 72, 73, 74, NO_LED, NO_LED },
+        { 69, 68, 67, 66, 65, 64, 63         },
+        { 57, 58, 59, 60, 61, 62, NO_LED     },
+        { 56, 55, 54, 53, 52, 51, 50         },
+        { 43, 44, 45, 46, 47, 48, 49         }
     },
     {
         // LED Index to Physical Position
@@ -305,4 +305,14 @@ const keypos_t PROGMEM hand_swap_config[MATRIX_ROWS][MATRIX_COLS] = {
     {{0, 1}, {1, 1}, {2, 1}, {3, 1}, {4, 1}, {5, 1}, {6, 1}},
     {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}}
 };
+#endif
+
+#ifndef MAGIC_ENABLE
+uint16_t keycode_config(uint16_t keycode) {
+    return keycode;
+}
+
+uint8_t mod_config(uint8_t mod) {
+    return mod;
+}
 #endif

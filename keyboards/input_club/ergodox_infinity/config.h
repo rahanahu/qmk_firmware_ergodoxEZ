@@ -48,6 +48,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define I2C1_SCL_PIN B0
 #define I2C1_SDA_PIN B1
 #define EE_HANDS
+#undef SPLIT_USB_DETECT
+#define SPLIT_OLED_ENABLE
+#define SPLIT_LED_STATE_ENABLE
+
 #ifdef ST7565_ENABLE
 /* LCD driver */
 #    define ST7565_A0_PIN C7
