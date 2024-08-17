@@ -131,10 +131,10 @@ void render_layer(uint8_t layer) {
     render_layer_helper_fun(0, PSTR("LAYER:"), 12, 6);
     switch (layer) {
         case 0:
-            render_layer_helper_fun(1, PSTR("1:HOME"), 12, 6);
+            render_layer_helper_fun(1, PSTR("1:SAND"), 12, 6);
             break;
         case 1 :
-            render_layer_helper_fun(1, PSTR("2:SAND"), 12, 6);
+            render_layer_helper_fun(1, PSTR("2:RAW"), 15, 5);
             break;
         case 2:
             render_layer_helper_fun(1, PSTR("3:FUNC"), 12, 6);
