@@ -16,54 +16,52 @@ enum Layer_name {
 
 uint16_t hold_timers[MATRIX_ROWS][MATRIX_COLS];
 
-
 enum custom_keycodes {
-  //--layers--
-  // layouts
+    //--layers--
+    // layouts
 
-  // os
+    // os
 
-  // lang
+    // lang
 
-  CK_SANDS = SAFE_RANGE,
+    CK_SANDS = SAFE_RANGE,
 };
 
-void type_code(uint8_t keycode){
-  register_code (keycode);
-  unregister_code (keycode);
+void type_code(uint8_t keycode) {
+    register_code(keycode);
+    unregister_code(keycode);
 };
 
-void set_eisu(void){
-  type_code (JP_MHEN);
-  type_code (KC_LNG2);
+void set_eisu(void) {
+    type_code(JP_MHEN);
+    type_code(KC_LNG2);
 };
 
-void set_kana(void){
-  type_code (JP_HENK);
-  type_code (KC_LNG1);
+void set_kana(void) {
+    type_code(JP_HENK);
+    type_code(KC_LNG1);
 };
 
-bool is_tap (keyrecord_t *record) {
-  return hold_timers[record->event.key.row][record->event.key.col]
-  && timer_elapsed (hold_timers[record->event.key.row][record->event.key.col]) < TAPPING_TERM;
+bool is_tap(keyrecord_t *record) {
+    return hold_timers[record->event.key.row][record->event.key.col] && timer_elapsed(hold_timers[record->event.key.row][record->event.key.col]) < TAPPING_TERM;
 }
 
-void mod_tap_action(keyrecord_t *record, uint8_t mod, void (*cb)(void) ) {
-  if (record->event.pressed) {
-    add_mods(MOD_BIT(mod));
-  } else {
-    if (is_tap(record)) {
-      del_mods(MOD_BIT(mod));
-      cb();
+void mod_tap_action(keyrecord_t *record, uint8_t mod, void (*cb)(void)) {
+    if (record->event.pressed) {
+        add_mods(MOD_BIT(mod));
     } else {
-      unregister_code(mod);
+        if (is_tap(record)) {
+            del_mods(MOD_BIT(mod));
+            cb();
+        } else {
+            unregister_code(mod);
+        }
     }
-  }
 }
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case MT_SS:
-            return 90; 
+            return 150;
         default:
             return TAPPING_TERM;
     }
@@ -79,127 +77,121 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
     }
 }
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  // record pressed timer
-  if (record->event.pressed) {
-    hold_timers[record->event.key.row][record->event.key.col] = timer_read();
-  }
+    // record pressed timer
+    if (record->event.pressed) {
+        hold_timers[record->event.key.row][record->event.key.col] = timer_read();
+    }
 
-  switch (keycode) {
-    //--layers--
+    switch (keycode) {
+        //--layers--
 
-    //layout
+        // layout
 
-    //os
+        // os
 
-    // langs
-    // case CK_C_MHE:
-    //   mod_tap_action(record, KC_RCTL, set_eisu);
-    //   return false;
-    //   break;
+        // langs
+        // case CK_C_MHE:
+        //   mod_tap_action(record, KC_RCTL, set_eisu);
+        //   return false;
+        //   break;
 
-    // Ctrl-Q -> Alt-F4
-    case KC_D:
-      if (
-        record->event.pressed
-        && (get_mods() & MOD_BIT(KC_RCTL))
-      ) {
-        clear_keyboard();
-        del_mods(MOD_BIT(KC_RCTL));
-        type_code(KC_DEL);
-        add_mods(MOD_BIT(KC_RCTL));
-        return false;
-      }
-      break;
-    // C-a -> HOME
-    case KC_A:
-      if (
-        record->event.pressed
-        && (get_mods() & MOD_BIT(KC_RCTL))
-      ) {
-        clear_keyboard();
-        del_mods(MOD_BIT(KC_RCTL));
-        type_code(KC_HOME);
-        add_mods(MOD_BIT(KC_RCTL));
-        return false;
-      }
-      break; 
-    // C-e -> END
-    case KC_E:
-      if (
-        record->event.pressed
-        && (get_mods() & MOD_BIT(KC_RCTL))
-      ) {
-        clear_keyboard();
-        del_mods(MOD_BIT(KC_RCTL));
-        type_code(KC_END);
-        add_mods(MOD_BIT(KC_RCTL));
-        return false;
-      }
-      break; 
+        // Ctrl-D -> Delete
+        case KC_D:
+            if (record->event.pressed && (get_mods() & MOD_BIT(KC_RCTL))) {
+                if (layer_state_is(SANDS)) {
+                    clear_keyboard();
+                    del_mods(MOD_BIT(KC_RCTL));
+                    type_code(KC_DEL);
+                    add_mods(MOD_BIT(KC_RCTL));
+                    return false;
+                }
+            }
+            break;
+        // C-a -> HOME
+        case KC_A:
+            if (record->event.pressed && (get_mods() & MOD_BIT(KC_RCTL))) {
+                if (layer_state_is(SANDS)) {
+                    clear_keyboard();
+                    del_mods(MOD_BIT(KC_RCTL));
+                    type_code(KC_HOME);
+                    add_mods(MOD_BIT(KC_RCTL));
+                    return false;
+                }
+            }
+            break;
+        // C-e -> END
+        case KC_E:
+            if (record->event.pressed && (get_mods() & MOD_BIT(KC_RCTL))) {
+                if (layer_state_is(SANDS)) {
+                    clear_keyboard();
+                    del_mods(MOD_BIT(KC_RCTL));
+                    type_code(KC_END);
+                    add_mods(MOD_BIT(KC_RCTL));
+                    return false;
+                }
+            }
+            break;
 
-    // C-k -> kill line
-    case KC_K:
-      if (
-        record->event.pressed
-        && (get_mods() & MOD_BIT(KC_RCTL))
-      ) {
-        clear_keyboard();
-        del_mods(MOD_BIT(KC_RCTL));
-        type_code(KC_HOME);
-        add_mods(MOD_BIT(KC_LSFT));
-        type_code(KC_END);
-        del_mods(MOD_BIT(KC_LSFT));
-        type_code(KC_DEL);
-        add_mods(MOD_BIT(KC_RCTL));
-        return false;
-      }
-      break;
-    // RCTL + ,(<) -> [
-    case KC_COMM:
-      if (
-        record->event.pressed
-        && (get_mods() & MOD_BIT(KC_RCTL))
-      ) {
-        bool shift_pressed = get_mods() & MOD_MASK_SHIFT;
-        clear_keyboard();
-        del_mods(MOD_BIT(KC_RCTL));
-        if (shift_pressed){
-          register_code(KC_LSFT);
-          type_code(JP_LBRC);
-          unregister_code(KC_LSFT);
-          add_mods(MOD_BIT(KC_LSFT));
-        }else{
-          type_code(JP_LBRC);
-        }
-        add_mods(MOD_BIT(KC_RCTL));
-        return false;
-      }
-      break;
-    // RCTL + .(>) -> ]
-    case KC_DOT:
-      if (
-        record->event.pressed
-        && (get_mods() & MOD_BIT(KC_RCTL))
-      ) {
-        bool shift_pressed = get_mods() & MOD_MASK_SHIFT;
-        clear_keyboard();
-        del_mods(MOD_BIT(KC_RCTL));
-        if (shift_pressed){
-          register_code(KC_LSFT);
-          type_code(JP_RBRC);
-          unregister_code(KC_LSFT);
-          add_mods(MOD_BIT(KC_LSFT));
-        }else{
-          type_code(JP_RBRC);
-        }
-        add_mods(MOD_BIT(KC_RCTL));
-        return false;
-      }
-      break; 
-    default:
-        break;
-  }
-  return true;
+        // C-k -> kill line
+        case KC_K:
+            if (record->event.pressed && (get_mods() & MOD_BIT(KC_RCTL))) {
+                if (layer_state_is(SANDS)) {
+                    clear_keyboard();
+                    del_mods(MOD_BIT(KC_RCTL));
+                    type_code(KC_HOME);
+                    add_mods(MOD_BIT(KC_LSFT));
+                    type_code(KC_END);
+                    del_mods(MOD_BIT(KC_LSFT));
+                    type_code(KC_DEL);
+                    add_mods(MOD_BIT(KC_RCTL));
+                    return false;
+                }
+            }
+            break;
+        // RCTL + ,(<) -> [
+        case KC_COMM:
+            if (record->event.pressed && (get_mods() & MOD_BIT(KC_RCTL))) {
+                if (layer_state_is(SANDS)) {
+                    bool shift_pressed = get_mods() & MOD_MASK_SHIFT;
+                    clear_keyboard();
+                    del_mods(MOD_BIT(KC_RCTL));
+                    if (shift_pressed) {
+                        register_code(KC_LSFT);
+                        type_code(JP_LBRC);
+                        unregister_code(KC_LSFT);
+                        add_mods(MOD_BIT(KC_LSFT));
+                    } else {
+                        type_code(JP_LBRC);
+                    }
+                    add_mods(MOD_BIT(KC_RCTL));
+                    return false;
+                }
+            }
+            break;
+        // RCTL + .(>) -> ]
+        case KC_DOT:
+            if (record->event.pressed && (get_mods() & MOD_BIT(KC_RCTL))) {
+                if (layer_state_is(SANDS)) {
+                    bool shift_pressed = get_mods() & MOD_MASK_SHIFT;
+                    clear_keyboard();
+                    del_mods(MOD_BIT(KC_RCTL));
+                    if (shift_pressed) {
+                        register_code(KC_LSFT);
+                        type_code(JP_RBRC);
+                        unregister_code(KC_LSFT);
+                        add_mods(MOD_BIT(KC_LSFT));
+                    } else {
+                        type_code(JP_RBRC);
+                    }
+                    add_mods(MOD_BIT(KC_RCTL));
+                    return false;
+                }
+            }
+            break;
+        default:
+            break;
+    }
+    return true;
 }
 
 // void matrix_scan_user(void) {
