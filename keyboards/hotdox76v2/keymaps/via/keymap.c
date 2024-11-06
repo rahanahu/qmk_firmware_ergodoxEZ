@@ -25,6 +25,8 @@ enum custom_keycodes {
     // lang
 
     CK_SANDS = SAFE_RANGE,
+    CK_MW_EN,
+    CK_MW_JA
 };
 
 void type_code(uint8_t keycode) {
@@ -94,6 +96,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         //   mod_tap_action(record, KC_RCTL, set_eisu);
         //   return false;
         //   break;
+    // langs
+        case CK_MW_EN:
+          set_eisu();
+          return false;
+          break;
+
+        case CK_MW_JA:
+          set_kana();
+          return false;
+          break;
+
 
         // Ctrl-D -> Delete
         case KC_D:
@@ -238,7 +251,7 @@ LAYOUT_ergodox(
         MO(FUNC), JP_CIRC, KC_LALT, KC_LEFT, KC_RGHT,
                                                       KC_DEL,   KC_HOME,
                                                                 KC_END,
-                                             MT_SS,  KC_RCTL,  JP_MHEN,
+                                             MT_SS,  KC_RCTL,  CK_MW_EN,
         // right hand
         JP_AT,   KC_6,   KC_7,    KC_8,    KC_9,    KC_0,     JP_MINS,
         JP_CIRC, KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,     JP_YEN,
@@ -247,7 +260,7 @@ LAYOUT_ergodox(
                          KC_UP,   KC_DOWN, JP_LBRC, JP_RBRC,  MO(MODS),
         KC_PGUP, KC_LWIN,
         KC_PGDN,
-        JP_HENK, KC_BSPC, KC_ENT
+        CK_MW_JA, KC_BSPC, KC_ENT
     ),
 LAYOUT_ergodox(
         // left hand
@@ -258,7 +271,7 @@ LAYOUT_ergodox(
         MO(FUNC), JP_CIRC, KC_LALT, KC_LEFT, KC_RGHT,
                                                       KC_DEL,   KC_HOME,
                                                                 KC_END,
-                                             KC_SPC,  KC_RCTL,  JP_MHEN,
+                                             KC_SPC,  KC_RCTL,  CK_MW_EN,
         // right hand
         JP_AT,   KC_6,   KC_7,    KC_8,    KC_9,    KC_0,     JP_MINS,
         JP_CIRC, KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,     JP_YEN,
@@ -267,7 +280,7 @@ LAYOUT_ergodox(
                          KC_UP,   KC_DOWN, JP_LBRC, JP_RBRC,  MO(MODS),
         KC_PGUP, KC_LWIN,
         KC_PGDN,
-        JP_HENK, KC_BSPC, KC_ENT
+        CK_MW_JA, KC_BSPC, KC_ENT
     ),
 
 /* Keymap 1: Symbol Layer
